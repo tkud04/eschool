@@ -51,13 +51,15 @@ import { Notifications } from 'expo';
 	  }
 	  console.log("postData: " + postData);
 	  
-	  if(postData === ''){
+	  if(postData === 'notification'){
 		  this.registerForPushNotificationsAsync(parsedMsg);
 	  }
 	  else if(postData === 'logout'){
 		  this.logout();
 	  }
 	  else{
+		   this.download(postData);
+		 /*
 	  let msgArr = postData.split('|');
 	  //let result = null;
 	  
@@ -76,6 +78,8 @@ import { Notifications } from 'expo';
 	      ffname = FileSystem.documentDirectory + fnameArr[3];	  
           this.download(uu);
 	  }
+	  
+	  */
 	  
 	  /**
 	  else if(msgArr[0] == "assignment"){
@@ -130,6 +134,7 @@ import { Notifications } from 'expo';
 
 export async function registerForPushNotificationsAsync(pm) {
 	const PUSH_ENDPOINT = 'https://whispering-river-45224.herokuapp.com/push-token';
+	//const PUSH_ENDPOINT = encodeURIComponent(`https://www.eschoolng.net/mobileapp/expo_url.php?ppp=n`);
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
   );
@@ -156,11 +161,33 @@ export async function registerForPushNotificationsAsync(pm) {
   let upu = PUSH_ENDPOINT + "?tk=" + token + "&sc=" + pm.userCook + "&au=" + pm.activeUser + "&cid=" + pm.cid;
   return fetch(upu, {
     method: 'GET'
-  });
+  })
+  .then(response => {
+	    console.log(`response: ${response}`);
+         if(response.status === 200){
+			   //console.log(response);
+			   
+			   return response.json();
+		   }
+		   else{
+			   return {status: "error:", message: "Couldn't fetch push endpoint url"};
+		   }
+		   })
+    .catch(error => {
+		   console.log(`Failed to fetch push endpoint ${PUSH_ENDPOINT}: ${error}`);		
+	   })
+	   .then(res => {
+		   console.log(res); 
+		   
+		   
+	   }).catch(error => {
+		   console.log(`Unknown error: ${error}`);			
+	   });
 }
 
 export async function logout() {
 	const PUSH_ENDPOINT2 = 'https://powerful-tundra-70186.herokuapp.com/logout';
+	//const PUSH_ENDPOINT2 = 'https://www.eschoolng.net/mobileapp/expo_url.php?ppp=l';
  
   // Get the token that uniquely identifies this device
   let token = await Notifications.getExpoPushTokenAsync();
