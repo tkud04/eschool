@@ -31,6 +31,7 @@ export default class WebScreen extends React.Component {
 	       <View style={{flex: 1}}>
 	       <CStatusBar backgroundColor="#2EBD6B" barStyle="light-content" />		   
            <WebView 
+		    useWebKit={true}
 		    source={{ uri: 'https://eschoolng.net/mobileapp' }} 
 		    style={{flex: 1}}
 			startInLoadingState={true}
