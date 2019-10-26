@@ -24,11 +24,11 @@
       "assets/**/*"
     ],
     "ios": {
-	  "bundleIdentifier": "com.primetech.eschool",
+	  "bundleIdentifier": "com.primetechmedia.eschool",
       "supportsTablet": true
     },
 	"android": {
-      "package": "com.primetech.eschool",
+      "package": "com.primetechmedia.eschool",
 	  "permissions": ["NOTIFICATIONS"]
     }
   }
